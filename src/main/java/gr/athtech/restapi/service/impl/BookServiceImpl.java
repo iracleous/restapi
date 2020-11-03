@@ -51,4 +51,9 @@ public class BookServiceImpl implements BookService {
          books.remove(id -1);
         return true;
     }
+
+    @Override
+    public Book assignAuthor(int authorId, Book book) {
+        return null;
+    }
 }
