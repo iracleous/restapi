@@ -3,7 +3,9 @@ package gr.athtech.restapi.controller;
 
 import gr.athtech.restapi.model.Book;
 import gr.athtech.restapi.service.BookService;
-import gr.athtech.restapi.service.impl.BookServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,13 +13,29 @@ import java.util.List;
 @RestController
 public class BookShopRestController {
 
-    private BookService bookService = new BookServiceImpl();
+
+    private BookService bookService ;
+
+    @Autowired
+    public BookShopRestController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     // http://localhost:8080/book/{id}  GET
     @GetMapping("book/{id}")
-    public Book getBook(@PathVariable int id) {
+    public ResponseEntity<Book> getBook(@PathVariable int id) {
 
-        return bookService.getById(id);
+        Book book =bookService.getById(id);
+        if (book ==null)
+        {
+           return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST );
+
+        }
+        else{
+            return new ResponseEntity<>(book, HttpStatus.OK );
+        }
+
+
     }
 
     @GetMapping("books")

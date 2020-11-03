@@ -2,9 +2,12 @@ package gr.athtech.restapi.service.impl;
 
 import gr.athtech.restapi.model.Book;
 import gr.athtech.restapi.service.BookService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class BookServiceImpl implements BookService {
 
@@ -22,6 +25,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getById(int id) {
+
+        if (id<=0 || id>books.size()) return null;
         return books.get(id-1);
     }
 
