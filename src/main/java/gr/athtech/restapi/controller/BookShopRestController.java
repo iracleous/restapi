@@ -1,6 +1,9 @@
 package gr.athtech.restapi.controller;
 
 
+import gr.athtech.restapi.dto.AuthorDto;
+import gr.athtech.restapi.dto.BookDto;
+import gr.athtech.restapi.exception.ValidationException;
 import gr.athtech.restapi.model.Author;
 import gr.athtech.restapi.model.Book;
 import gr.athtech.restapi.service.AuthorService;
@@ -25,29 +28,29 @@ public class BookShopRestController {
 
     // http://localhost:8080/book/{id}  GET
     @GetMapping("book/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable int id) {
+    public BookDto getBook(@PathVariable int id) {
 
-        Book book =bookService.getById(id);
+        BookDto book =bookService.getById(id);
         if (book ==null)
         {
-           return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST );
+           return null;
 
         }
         else{
-            return new ResponseEntity<>(book, HttpStatus.OK );
+            return book;
         }
 
 
     }
 
     @GetMapping("books")
-    public List<Book> getAllBook() {
+    public List<BookDto> getAllBook() {
 
         return bookService.getAllBooks();
     }
 
     @PostMapping("book")
-    public Book addBook(@RequestBody Book book) {
+    public BookDto addBook(@RequestBody BookDto book) throws ValidationException {
 
         return bookService.addBook(book);
     }
@@ -61,7 +64,7 @@ public class BookShopRestController {
 
 
     @PutMapping("book/{id}")
-    public Book updateBook(@PathVariable int id, @RequestBody Book book) {
+    public BookDto updateBook(@PathVariable int id, @RequestBody BookDto book) {
 
         return bookService.update(book, id);
     }
@@ -69,25 +72,25 @@ public class BookShopRestController {
 
     //////////////////////////////////////////////////////////////
     @GetMapping("authors")
-    public List<Author> getAllAuthors() {
+    public List<AuthorDto> getAllAuthors() {
 
         return authorService.getAllAuthors();
     }
 
     @PostMapping("author")
-    public Author addAuthor(@RequestBody Author author) {
+    public AuthorDto addAuthor(@RequestBody AuthorDto author) {
 
         return authorService.addAuthor(author);
     }
 
 
     @GetMapping("author/{id}")
-    public Author getAuthor(@PathVariable int id) {
+    public AuthorDto getAuthor(@PathVariable int id) {
         return authorService.getById(id);
     }
 
     @PutMapping("author/{authorId}/addbook")
-    public Book addBookToAutor(@PathVariable int authorId, @RequestBody Book book) {
+    public BookDto addBookToAutor(@PathVariable int authorId, @RequestBody BookDto book) {
         return bookService.assignAuthor(authorId, book);
     }
 

@@ -1,5 +1,6 @@
 package gr.athtech.restapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Author {
     private String firstName;
     private String lastName;
     private String email;
+
 
     @OneToMany(mappedBy = "author")
     private List<Book> books;
